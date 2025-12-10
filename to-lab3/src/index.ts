@@ -16,7 +16,6 @@ function start() {
 
   let fromLastUpdate: number = 0;
   let fromLastSpawned: number = 0;
-  let t: number = 0;
 
   isRunning = true;
   interval = setInterval(() => {
@@ -26,11 +25,11 @@ function start() {
 
     simulation.step(intervalDelta);
     draw(simulation.getSpecimens(), simulation.getN(), simulation.getM());
-    infoText(simulation.getSpecimens(), t);
+    infoText(simulation.getSpecimens(), simulation.getT());
 
     if (fromLastUpdate >= 1000) {
       fromLastUpdate -= 1000;
-      t++;
+      simulation.setT(simulation.getT() + 1);
 
       history.add(simulation.snapshot());
     }
@@ -167,16 +166,16 @@ document.getElementById('load-button')!.onclick = () => {
     
     history.fromJSON(json);
     
-    const input = prompt(`Select the time to load from 0 to ${history.getLength()}`, `${history.getLength()}`);
+    const input = prompt(`Select the time to load from 1 to ${history.getLength()}`, `${history.getLength()}`);
     
     if (!input) {
       alert("Could not load history.");
       return;
     }
     
-    const index = parseInt(input, 10);
+    const index = parseInt(input, 10) - 1;
     
-    if (index < 0 || index > history.getLength()) {
+    if (index < 0 || index >= history.getLength()) {
       alert("Could not load history. Invalid input.");
       return;
     }

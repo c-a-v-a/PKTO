@@ -8,6 +8,7 @@ export default class Simulation {
   private n: number;
   private m: number;
   private i: number;
+  private t: number = 0;
 
   private specimens: Specimen[] = [];
   private proximity: Record<string, number> = {};
@@ -41,6 +42,14 @@ export default class Simulation {
 
   public getI(): number {
     return this.i;
+  }
+
+  public getT(): number {
+    return this.t;
+  }
+
+  public setT(t: number) {
+    this.t = t;
   }
 
   public getSpecimens(): Specimen[] {
@@ -158,7 +167,7 @@ export default class Simulation {
     const proximityCopy = JSON.parse(JSON.stringify(this.proximity));
     const sickCopy = JSON.parse(JSON.stringify(this.sick));
 
-    return new SimulationMemento(this.n, this.m, this.i, specimenCopy, proximityCopy, sickCopy);
+    return new SimulationMemento(this.n, this.m, this.i, this.t, specimenCopy, proximityCopy, sickCopy);
   }
 
   public restore(snapshot: SimulationMemento) {
@@ -166,6 +175,7 @@ export default class Simulation {
     this.n = snapshot.n;
     this.m = snapshot.m;
     this.i = snapshot.i;
+    this.t = snapshot.t;
     this.specimens = snapshot.specimens;
     this.proximity = JSON.parse(JSON.stringify(snapshot.proximity));
     this.sick = JSON.parse(JSON.stringify(snapshot.sick));

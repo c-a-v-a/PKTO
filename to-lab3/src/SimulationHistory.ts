@@ -17,7 +17,7 @@ export default class SimulationHistory {
   }
 
   public getLength(): number {
-    return this.history.length - 1;
+    return this.history.length;
   }
 
   public toJSON(): string {
@@ -34,7 +34,7 @@ export default class SimulationHistory {
         return specimen;
       });
 
-      return new SimulationMemento(x.n, x.m, x.i, specimens, x.proximity, x.sick);
+      return new SimulationMemento(x.n, x.m, x.i, x.t, specimens, x.proximity, x.sick);
     });
   }
 }
